@@ -5,6 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Nutri Track MBG - Sistem Manajemen Gizi</title>
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <style type="text/tailwindcss">
+        @custom-variant dark (&:where(.dark, .dark *));
+    </style>
     <style>
         .progress-bar { transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1); }
         .glass-panel { background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(12px); border-bottom: 1px solid rgba(226, 232, 240, 0.8); }
@@ -601,8 +604,13 @@
 
         document.addEventListener('DOMContentLoaded', () => { 
             fetchProvinces(); 
-            const savedTheme = localStorage.getItem('theme') || 'light';
-            if (savedTheme === 'dark') document.documentElement.classList.add('dark');
+            // Cek localStorage dan system preference buat load dark mode yang bener dari awal
+            const savedTheme = localStorage.getItem('theme');
+            if (savedTheme === 'dark' || (!savedTheme && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+                document.documentElement.classList.add('dark');
+            } else {
+                document.documentElement.classList.remove('dark');
+            }
             updateThemeButtonUI();
         });
 
@@ -772,7 +780,6 @@
             });
         }
 
-        // FUNGSI KAMERA DAN UPLOAD FILE ALTERNATIF
         function triggerFileUpload() {
             document.getElementById('file-upload').click();
         }
@@ -792,12 +799,10 @@
                     const ctx = canvas.getContext('2d');
                     const img = new Image();
                     img.onload = function() {
-                        // Sesuaikan resolusi kanvas
                         canvas.width = img.width;
                         canvas.height = img.height;
                         ctx.drawImage(img, 0, 0);
                         
-                        // Tampilkan hasil
                         canvas.classList.remove('hidden');
                         video.classList.add('hidden');
                         placeholder.classList.add('hidden');
@@ -1042,7 +1047,7 @@
                 document.getElementById('school-compliance').innerText = myData.compliance;
                 
                 document.getElementById('sch-nut-karbo').innerText = (myData.karbo || 0) + " g";
-                document.getElementById('sch-nut-protein').innerText = (myData.protein || 0) + " g";
+                document.getElementById('sch-nut-protein').innerText = (myData.sch-nut-protein || 0) + " g";
                 document.getElementById('sch-nut-lemak').innerText = (myData.lemak || 0) + " g";
                 document.getElementById('sch-nut-serat').innerText = (myData.serat || 0) + " g";
                 document.getElementById('sch-nut-kalsium').innerText = (myData.kalsium || 0) + " mg";
