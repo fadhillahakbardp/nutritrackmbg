@@ -6,9 +6,9 @@
     <title>Nutri Track MBG - Sistem Manajemen Gizi</title>
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
     <style type="text/tailwindcss">
-        /* Konfigurasi paksa Dark Mode berbasis class untuk Tailwind v4 */
-        @custom-variant dark (.dark &);
-
+        @custom-variant dark (&:where(.dark, .dark *));
+    </style>
+    <style>
         .progress-bar { transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1); }
         .glass-panel { background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(12px); border-bottom: 1px solid rgba(226, 232, 240, 0.8); }
         html.dark .glass-panel { background: rgba(15, 23, 42, 0.95); border-bottom: 1px solid rgba(51, 65, 85, 0.8); }
